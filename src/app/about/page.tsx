@@ -1,93 +1,120 @@
-import Link from "next/link";
-import { PageShell } from "@/components/shared/page-shell";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { mockTeamMembers } from "@/data/mock-data";
-import { SITE_CONFIG } from "@/lib/site-config";
+import Link from 'next/link'
+import { ArrowRight, BookOpen, PenLine, Sparkles } from 'lucide-react'
+import { PageShell } from '@/components/shared/page-shell'
+import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { mockTeamMembers } from '@/data/mock-data'
+import { SITE_CONFIG } from '@/lib/site-config'
 
-const highlights = [
-  { label: "Creators onboarded", value: "12k+" },
-  { label: "Bookmarks shared", value: "180k" },
-  { label: "Listings published", value: "8.6k" },
-];
+const stats = [
+  { label: 'Reading-first layout', value: 'Editorial' },
+  { label: 'Issue-style pacing', value: 'Calm' },
+  { label: 'Desk workflow', value: 'Focused' },
+]
 
-const values = [
-  { title: "Curated by people", description: "We believe trusted recommendations beat endless feeds." },
-  { title: "Designed for focus", description: "Clear, calm UI helps you find the next best resource fast." },
-  { title: "Built to share", description: "Collections make collaboration and knowledge flow effortless." },
-];
+const pillars = [
+  {
+    title: 'Long-form without noise',
+    body: 'We design for essays, guides, and features—typography, spacing, and imagery that stay out of the way of the words.',
+    icon: BookOpen,
+  },
+  {
+    title: 'A single lane for stories',
+    body: 'One clear archive, one calm rhythm. You open a headline, read deeply, and move on without marketplace clutter.',
+    icon: PenLine,
+  },
+  {
+    title: 'Quiet motion, strong hierarchy',
+    body: 'Motion is subtle; contrast is intentional. The interface should feel like a magazine desk, not a dashboard.',
+    icon: Sparkles,
+  },
+]
 
 export default function AboutPage() {
   return (
     <PageShell
-      title={`About ${SITE_CONFIG.name}`}
-      description={`${SITE_CONFIG.name} is a modern platform for creators, communities, and curated business discovery.`}
+      eyebrow="About the publication"
+      title={`Inside ${SITE_CONFIG.name}`}
+      description="We are an article-led editorial surface: slower pacing, generous whitespace, and typography tuned for reading—built to feel like a finished magazine, not a generic template."
       actions={
         <>
-          <Button variant="outline" asChild>
-            <Link href="/team">Meet the Team</Link>
+          <Button variant="outline" className="rounded-full border-slate-200 bg-white" asChild>
+            <Link href="/articles">Browse articles</Link>
           </Button>
-          <Button asChild>
-            <Link href="/contact">Contact Us</Link>
+          <Button className="rounded-full bg-slate-900 text-white hover:bg-slate-800" asChild>
+            <Link href="/contact">
+              Contact the desk
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
         </>
       }
     >
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Card className="border-border bg-card">
-          <CardContent className="space-y-4 p-6">
-            <Badge variant="secondary">Our Story</Badge>
-            <h2 className="text-2xl font-semibold text-foreground">
-              A single home for knowledge, discovery, and community.
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              {SITE_CONFIG.name} brings together publishing, listings, and social bookmarking so teams can move faster
-              and keep their best resources close.
-            </p>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {highlights.map((item) => (
-                <div key={item.label} className="rounded-lg border border-border bg-secondary/40 p-4">
-                  <div className="text-2xl font-semibold text-foreground">{item.value}</div>
-                  <div className="text-xs text-muted-foreground">{item.label}</div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+        <div className="rounded-2xl border border-slate-200/90 bg-white p-8 shadow-[0_24px_60px_rgba(15,23,42,0.06)] sm:p-10">
+          <h2 className="text-2xl font-semibold tracking-[-0.03em] text-slate-950">Why this exists</h2>
+          <p className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+            {SITE_CONFIG.name} exists for readers who want a calmer feed: fewer modules, clearer headlines, and photography that supports the story instead of competing with it. We treat every page as part of the same issue—from the cover hero to the legal footnotes.
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+            Whether you are browsing on a phone or a wide desktop, the rhythm stays consistent: white fields, soft dividers, and charcoal type that keeps contrast high without feeling cold.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {stats.map((s) => (
+              <div key={s.label} className="rounded-xl border border-slate-200/80 bg-slate-50/90 px-4 py-4 text-center">
+                <p className="text-lg font-semibold text-slate-950">{s.value}</p>
+                <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="space-y-4">
-          {values.map((value) => (
-            <Card key={value.title} className="border-border bg-card">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-foreground">{value.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{value.description}</p>
-              </CardContent>
-            </Card>
+          {pillars.map((p) => (
+            <div
+              key={p.title}
+              className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_55px_rgba(15,23,42,0.08)]"
+            >
+              <p.icon className="h-5 w-5 text-slate-700" aria-hidden />
+              <h3 className="mt-4 text-lg font-semibold text-slate-950">{p.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{p.body}</p>
+            </div>
           ))}
         </div>
       </div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {mockTeamMembers.map((member) => (
-          <Card key={member.id} className="border-border bg-card transition-transform hover:-translate-y-1">
-            <CardContent className="p-6">
+      <div className="mt-12 rounded-2xl border border-slate-200/90 bg-white p-8 shadow-[0_24px_60px_rgba(15,23,42,0.06)] sm:p-10">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Editorial & product</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">People behind the desk</h2>
+            <p className="mt-2 max-w-2xl text-sm text-slate-600">A small cross-functional group—editorial, design, and engineering—shipping the same quiet-luxury system you see across the site.</p>
+          </div>
+          <Button variant="ghost" className="self-start rounded-full text-slate-900 hover:bg-slate-100" asChild>
+            <Link href="/careers">Open roles</Link>
+          </Button>
+        </div>
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {mockTeamMembers.map((member) => (
+            <div
+              key={member.id}
+              className="rounded-2xl border border-slate-200/80 bg-slate-50/60 p-5 transition hover:border-slate-300 hover:bg-white"
+            >
               <div className="flex items-center gap-3">
-                <Avatar className="h-12 w-12">
+                <Avatar className="h-12 w-12 border border-slate-200">
                   <AvatarImage src={member.avatar} alt={member.name} />
                   <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{member.name}</p>
-                  <p className="text-xs text-muted-foreground">{member.role}</p>
+                  <p className="text-sm font-semibold text-slate-950">{member.name}</p>
+                  <p className="text-xs text-slate-500">{member.role}</p>
                 </div>
               </div>
-              <p className="mt-3 text-sm text-muted-foreground">{member.bio}</p>
-              <p className="mt-3 text-xs text-muted-foreground">{member.location}</p>
-            </CardContent>
-          </Card>
-        ))}
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">{member.bio}</p>
+              <p className="mt-3 text-xs text-slate-500">{member.location}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </PageShell>
-  );
+  )
 }

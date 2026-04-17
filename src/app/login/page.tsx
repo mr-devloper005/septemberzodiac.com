@@ -1,10 +1,10 @@
-import Link from 'next/link'
-import { Bookmark, Building2, FileText, Image as ImageIcon, Sparkles } from 'lucide-react'
+import { Bookmark, Building2, FileText, Image as ImageIcon } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind } from '@/design/factory/get-product-kind'
 import { LOGIN_PAGE_OVERRIDE_ENABLED, LoginPageOverride } from '@/overrides/login-page'
+import { LoginForm } from '@/components/auth/login-form'
 
 function getLoginConfig(kind: ReturnType<typeof getProductKind>) {
   if (kind === 'directory') {
@@ -21,11 +21,11 @@ function getLoginConfig(kind: ReturnType<typeof getProductKind>) {
   }
   if (kind === 'editorial') {
     return {
-      shell: 'bg-[#fbf6ee] text-[#241711]',
-      panel: 'border border-[#dcc8b7] bg-[#fffdfa]',
-      side: 'border border-[#e6d6c8] bg-[#fff4e8]',
-      muted: 'text-[#6e5547]',
-      action: 'bg-[#241711] text-[#fff1e2] hover:bg-[#3a241b]',
+      shell: 'bg-[#fafafa] text-slate-950',
+      panel: 'border border-slate-200/90 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.06)]',
+      side: 'border border-slate-200/80 bg-slate-50/90',
+      muted: 'text-slate-600',
+      action: 'bg-slate-900 text-white hover:bg-slate-800',
       icon: FileText,
       title: 'Sign in to your publication workspace',
       body: 'Draft, review, and publish long-form work with the calmer reading system intact.',
@@ -75,26 +75,17 @@ export default function LoginPage() {
             <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em]">{config.title}</h1>
             <p className={`mt-5 text-sm leading-8 ${config.muted}`}>{config.body}</p>
             <div className="mt-8 grid gap-4">
-              {['Cleaner product-specific workflows', 'Palette and layout matched to the site family', 'Fewer repeated admin patterns'].map((item) => (
-                <div key={item} className="rounded-[1.5rem] border border-current/10 px-4 py-4 text-sm">{item}</div>
+              {['Typography-first dashboards', 'Quiet luxury palette across the desk', 'Lightweight motion that stays out of the way'].map((item) => (
+                <div key={item} className="rounded-[1.5rem] border border-slate-200/80 bg-white/60 px-4 py-4 text-sm text-slate-700">
+                  {item}
+                </div>
               ))}
             </div>
           </div>
 
           <div className={`rounded-[2rem] p-8 ${config.panel}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Welcome back</p>
-            <form className="mt-6 grid gap-4">
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Password" type="password" />
-              <button type="submit" className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold ${config.action}`}>Sign in</button>
-            </form>
-            <div className={`mt-6 flex items-center justify-between text-sm ${config.muted}`}>
-              <Link href="/forgot-password" className="hover:underline">Forgot password?</Link>
-              <Link href="/register" className="inline-flex items-center gap-2 font-semibold hover:underline">
-                <Sparkles className="h-4 w-4" />
-                Create account
-              </Link>
-            </div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Welcome back</p>
+            <LoginForm buttonClassName={config.action} />
           </div>
         </section>
       </main>

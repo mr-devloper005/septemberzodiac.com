@@ -10,6 +10,7 @@ import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 import { taskIntroCopy } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { TASK_LIST_PAGE_OVERRIDE_ENABLED, TaskListPageOverride } from '@/overrides/task-list-page'
+import { ArticleCreateButton } from '@/components/tasks/article-create-button'
 
 const taskIcons: Record<TaskKey, any> = {
   listing: Building2,
@@ -28,7 +29,7 @@ const variantShells = {
   'listing-directory': 'bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.08),transparent_24%),linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)]',
   'listing-showcase': 'bg-[linear-gradient(180deg,#ffffff_0%,#f4f9ff_100%)]',
   'article-editorial': 'bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.08),transparent_20%),linear-gradient(180deg,#fff8ef_0%,#ffffff_100%)]',
-  'article-journal': 'bg-[linear-gradient(180deg,#fffdf9_0%,#f7f1ea_100%)]',
+  'article-journal': 'bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_55%,#f1f5f9_100%)]',
   'image-masonry': 'bg-[linear-gradient(180deg,#09101d_0%,#111c2f_100%)] text-white',
   'image-portfolio': 'bg-[linear-gradient(180deg,#07111f_0%,#13203a_100%)] text-white',
   'profile-creator': 'bg-[linear-gradient(180deg,#0a1120_0%,#101c34_100%)] text-white',
@@ -71,11 +72,11 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
       }
     : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
       ? {
-          muted: 'text-[#72594a]',
-          panel: 'border border-[#dbc6b6] bg-white/90',
-          soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
-          input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
-          button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          muted: 'text-slate-600',
+          panel: 'border border-slate-200/90 bg-white/95 shadow-[0_18px_50px_rgba(15,23,42,0.05)]',
+          soft: 'border border-slate-200/80 bg-slate-50/90',
+          input: 'border border-slate-200 bg-white text-slate-900',
+          button: 'bg-slate-900 text-white hover:bg-slate-800',
         }
       : {
           muted: 'text-slate-600',
@@ -149,9 +150,18 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         {layoutKey === 'article-editorial' || layoutKey === 'article-journal' ? (
           <section className="mb-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div>
-              <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-              <h1 className="mt-3 max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-foreground">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This reading surface uses slower pacing, stronger typographic hierarchy, and more breathing room so long-form content feels intentional rather than squeezed into a generic feed.</p>
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
+                  <h1 className="mt-3 max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-foreground">
+                    {taskConfig?.description || 'Latest posts'}
+                  </h1>
+                  <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>
+                    This reading surface uses slower pacing, stronger typographic hierarchy, and more breathing room so long-form content feels intentional rather than squeezed into a generic feed.
+                  </p>
+                </div>
+                {task === 'article' ? <ArticleCreateButton buttonClassName={ui.button} /> : null}
+              </div>
             </div>
             <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
               <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>Reading note</p>

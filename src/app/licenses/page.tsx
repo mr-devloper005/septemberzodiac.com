@@ -1,28 +1,36 @@
 ﻿import { PageShell } from '@/components/shared/page-shell'
-import { Card, CardContent } from '@/components/ui/card'
 
 const licenses = [
-  { name: 'Next.js', description: 'MIT License' },
-  { name: 'React', description: 'MIT License' },
-  { name: 'Tailwind CSS', description: 'MIT License' },
+  { name: 'Next.js', description: 'MIT License · App framework' },
+  { name: 'React', description: 'MIT License · UI library' },
+  { name: 'Tailwind CSS', description: 'MIT License · Styling system' },
+  { name: 'Radix UI', description: 'MIT License · Accessible primitives' },
+  { name: 'Lucide', description: 'ISC License · Iconography' },
 ]
 
 export default function LicensesPage() {
   return (
     <PageShell
-      title="Licenses"
-      description="Open source licenses and acknowledgements."
+      eyebrow="Open source"
+      title="Licenses & acknowledgements"
+      description="We stand on excellent open-source work. Below are the core packages powering this reading experience."
     >
-      <Card className="border-border bg-card">
-        <CardContent className="p-6 space-y-3">
+      <div className="mx-auto max-w-3xl">
+        <div className="grid gap-4 sm:grid-cols-2">
           {licenses.map((license) => (
-            <div key={license.name} className="rounded-lg border border-border bg-secondary/40 p-4">
-              <h3 className="text-sm font-semibold text-foreground">{license.name}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{license.description}</p>
+            <div
+              key={license.name}
+              className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)]"
+            >
+              <h3 className="text-sm font-semibold text-slate-950">{license.name}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{license.description}</p>
             </div>
           ))}
-        </CardContent>
-      </Card>
+        </div>
+        <p className="mt-8 text-center text-xs leading-relaxed text-slate-500">
+          Full license texts ship with their respective packages. Contact the desk if you need a complete attribution file for redistribution.
+        </p>
+      </div>
     </PageShell>
   )
 }
