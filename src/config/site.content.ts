@@ -2,75 +2,74 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent editorial publication',
+    tagline: 'Quiet luxury editorial',
   },
   footer: {
-    tagline: 'Articles, features, and thoughtful publishing',
+    tagline: 'Long-form stories, essays, and features',
   },
   hero: {
-    badge: 'Reading-led magazine',
-    title: ['Discover feature stories, articles, and premium long-form reading.'],
+    badge: 'Cover story',
+    title: ['Thoughtful articles', 'and a calmer reading rhythm.'],
     description:
-      'An editorial reading platform built around feature articles, structured browsing, and a calmer publication rhythm.',
+      'A white-space editorial system built for scanning covers, settling into features, and moving through issues without dashboard noise.',
     primaryCta: {
-      label: 'Read stories',
+      label: 'Read the journal',
       href: '/articles',
     },
     secondaryCta: {
-      label: 'Open journal',
-      href: '/articles',
+      label: 'Search archive',
+      href: '/search',
     },
-    searchPlaceholder: 'Search articles, features, guides, and editorials',
-    focusLabel: 'Focus',
+    searchPlaceholder: 'Search headlines, topics, and authors',
+    focusLabel: 'Desk',
     featureCardBadge: 'latest cover rotation',
     featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
     featureCardDescription:
-      'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      'Recent stories stay at the center of the experience without changing any core platform behavior.',
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
+      title: 'Editorial articles and magazine features',
       description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+        'Discover essays, guides, and long-form publishing in a refined reading-first layout.',
+      openGraphTitle: 'Editorial articles and magazine features',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'Essays, features, and structured browsing in a premium article presentation.',
+      keywords: ['articles', 'magazine', 'editorial', 'long-form', 'essays', 'reading'],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'The publication',
+    introTitle: 'Built for reading depth, not mixed-task clutter.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'This site focuses on article-led storytelling: cover pacing, typographic hierarchy, and imagery that supports the narrative.',
+      'Navigation stays minimal so attention stays on the issue, the desk, and the archive—not on marketplace or directory patterns.',
+      'Every surface uses the same quiet luxury language: soft radii, charcoal type, and motion that stays barely there.',
     ],
     sideBadge: 'At a glance',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Split hero with a featured desk list and a dominant cover frame.',
+      'Discovery grid with glass CTAs and gradient legibility on photography.',
+      'Responsive rhythm tuned for phones, tablets, and wide desktops.',
     ],
     primaryLink: {
       label: 'Browse articles',
       href: '/articles',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/images',
+      label: 'About the desk',
+      href: '/about',
     },
   },
   cta: {
-    badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
+    badge: 'Newsletter',
+    title: 'Get the Sunday issue in your inbox—no noise, just the features worth reading.',
     description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+      'Join readers who want slower publishing: one digest, sharp typography, and links back to the full archive.',
     primaryCta: {
-      label: 'Get Started Free',
+      label: 'Subscribe free',
       href: '/register',
     },
     secondaryCta: {
-      label: 'Contact Sales',
+      label: 'Talk to editorial',
       href: '/contact',
     },
   },
@@ -130,13 +129,13 @@ export const taskIntroCopy: Record<
     title: 'Articles, stories, and long-form reading',
     paragraphs: [
       'This section is built for stories, explainers, guides, and long-form reading across topics and interests.',
-      'Articles connect with listings, images, resources, and other content types so deeper reading can lead naturally into related discovery.',
-      'Use this section to browse thoughtful posts, revisit useful writing, and move into supporting content when you want more context.',
+      'The layout favors generous line length, clear section breaks, and photography that earns its place beside the text.',
+      'Use filters to move between desks, then open a feature when you want a slower, uninterrupted read.',
     ],
     links: [
-      { label: 'Explore listings', href: '/listings' },
-      { label: 'Open images', href: '/images' },
-      { label: 'Browse resources', href: '/pdf' },
+      { label: 'Open archive', href: '/articles' },
+      { label: 'Search stories', href: '/search' },
+      { label: 'About the publication', href: '/about' },
     ],
   },
   classified: {
