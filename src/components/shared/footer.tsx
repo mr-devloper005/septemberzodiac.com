@@ -26,14 +26,12 @@ const footerLinks = {
   })),
   company: [
     { name: 'About', href: '/about' },
-    { name: 'Team', href: '/team' },
     { name: 'Careers', href: '/careers' },
-    { name: 'Blog', href: '/blog' },
     { name: 'Press', href: '/press' },
+    { name: 'Contact', href: '/contact' },
   ],
   resources: [
     { name: 'Help Center', href: '/help' },
-    { name: 'Community', href: '/community' },
     { name: 'Developers', href: '/developers' },
     { name: 'Status', href: '/status' },
   ],
@@ -87,8 +85,8 @@ export function Footer() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr_1fr]">
             <div className="rounded-[2rem] border border-white/10 bg-white/5 p-7">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/8 p-1.5">
-                  <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/12 bg-white/8 p-0">
+                  <img src="/favicon.png?v=20260418" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full min-h-full min-w-full object-cover object-center" />
                 </div>
                 <div>
                   <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
@@ -140,33 +138,99 @@ export function Footer() {
 
   if (recipe.footer === 'editorial-footer') {
     return (
-      <footer className="border-t border-[#dbc6b6] bg-[linear-gradient(180deg,#fff9f0_0%,#fff1df_100%)] text-[#2f1d16]">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr_0.9fr]">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#dbc6b6] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#72594a]">
-                <Sparkles className="h-3.5 w-3.5" />
-                Editorial desk
+      <footer className="border-t border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-950">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="rounded-[1.75rem] border border-slate-200/90 bg-white p-8 shadow-[0_24px_60px_rgba(15,23,42,0.05)] sm:p-10">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-xl">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">Join our newsletter</p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">Sunday features, in one calm email.</h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">No promotions clutter—just the week&apos;s best long reads and desk notes.</p>
               </div>
-              <h3 className="mt-5 text-3xl font-semibold tracking-[-0.04em]">{SITE_CONFIG.name}</h3>
-              <p className="mt-4 max-w-md text-sm leading-7 text-[#72594a]">{SITE_CONFIG.description}</p>
+              <form className="flex w-full max-w-md items-center gap-2" action="/register">
+                <label htmlFor="footer-newsletter-email" className="sr-only">
+                  Email
+                </label>
+                <input
+                  id="footer-newsletter-email"
+                  name="email"
+                  type="email"
+                  placeholder="you@email.com"
+                  className="h-12 min-w-0 flex-1 rounded-full border border-slate-200 bg-slate-50/80 px-5 text-sm text-slate-900 outline-none ring-slate-300 placeholder:text-slate-400 focus:ring-2"
+                />
+                <button
+                  type="submit"
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white shadow-[0_10px_30px_rgba(15,23,42,0.18)] transition hover:bg-slate-800"
+                  aria-label="Subscribe"
+                >
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div className="mt-12 grid gap-10 lg:grid-cols-[1.15fr_0.85fr_0.85fr_0.85fr]">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-600">
+                <Sparkles className="h-3.5 w-3.5" />
+                Editorial
+              </div>
+              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em]">{SITE_CONFIG.name}</h3>
+              <p className="mt-4 max-w-md text-sm leading-7 text-slate-600">{SITE_CONFIG.description}</p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {socialLinks.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8b6d5a]">Sections</h4>
-              <ul className="mt-4 space-y-3 text-sm">
+              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Sections</h4>
+              <ul className="mt-4 space-y-3 text-sm text-slate-600">
                 {footerLinks.platform.map((item: any) => (
-                  <li key={item.name}><Link href={item.href} className="hover:text-[#2f1d16]">{item.name}</Link></li>
+                  <li key={item.name}>
+                    <Link href={item.href} className="hover:text-slate-950">
+                      {item.name}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8b6d5a]">Company</h4>
-              <ul className="mt-4 space-y-3 text-sm">
+              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Company</h4>
+              <ul className="mt-4 space-y-3 text-sm text-slate-600">
                 {footerLinks.company.map((item) => (
-                  <li key={item.name}><Link href={item.href} className="hover:text-[#2f1d16]">{item.name}</Link></li>
+                  <li key={item.name}>
+                    <Link href={item.href} className="hover:text-slate-950">
+                      {item.name}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
+            <div>
+              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Legal</h4>
+              <ul className="mt-4 space-y-3 text-sm text-slate-600">
+                {footerLinks.legal.map((item) => (
+                  <li key={item.name}>
+                    <Link href={item.href} className="hover:text-slate-950">
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="mt-12 border-t border-slate-200/90 pt-6 text-center text-sm text-slate-500">
+            &copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
           </div>
         </div>
       </footer>
@@ -179,8 +243,8 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_0.8fr]">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <div className="h-11 w-11 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="44" height="44" className="h-full w-full object-contain" />
+              <div className="h-11 w-11 shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-0 shadow-sm">
+                <img src="/favicon.png?v=20260418" alt={`${SITE_CONFIG.name} logo`} width="44" height="44" className="h-full w-full min-h-full min-w-full object-cover object-center" />
               </div>
               <div>
                 <span className="block text-lg font-semibold">{SITE_CONFIG.name}</span>

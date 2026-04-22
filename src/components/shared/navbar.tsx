@@ -4,8 +4,41 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus } from 'lucide-react'
+import {
+  Search,
+  Menu,
+  X,
+  User,
+  FileText,
+  Building2,
+  LayoutGrid,
+  Tag,
+  Image as ImageIcon,
+  ChevronRight,
+  ChevronDown,
+  Sparkles,
+  MapPin,
+  Plus,
+  BookOpen,
+  HelpCircle,
+  Briefcase,
+  Newspaper,
+  Mail,
+  Activity,
+  Shield,
+  Scale,
+  Cookie,
+  FileBadge,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { cn } from '@/lib/utils'
@@ -41,12 +74,12 @@ const variantClasses = {
     mobile: 'border-t border-slate-200/70 bg-white/95',
   },
   'editorial-bar': {
-    shell: 'border-b border-[#d7c4b3] bg-[#fff7ee]/90 text-[#2f1d16] backdrop-blur-xl',
-    logo: 'rounded-full border border-[#dbc6b6] bg-white shadow-sm',
-    active: 'bg-[#2f1d16] text-[#fff4e4]',
-    idle: 'text-[#72594a] hover:bg-[#f2e5d4] hover:text-[#2f1d16]',
-    cta: 'rounded-full bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
-    mobile: 'border-t border-[#dbc6b6] bg-[#fff7ee]',
+    shell: 'border-b border-slate-200/80 bg-white/92 text-slate-950 backdrop-blur-xl shadow-[0_1px_0_rgba(15,23,42,0.04)]',
+    logo: 'rounded-2xl border border-slate-200/90 bg-white shadow-[0_12px_40px_rgba(15,23,42,0.06)]',
+    active: 'bg-slate-900 text-white',
+    idle: 'text-slate-600 hover:bg-slate-100 hover:text-slate-950',
+    cta: 'rounded-full bg-slate-900 text-white hover:bg-slate-800',
+    mobile: 'border-t border-slate-200 bg-white',
   },
   'floating-bar': {
     shell: 'border-b border-transparent bg-transparent text-white',
@@ -87,6 +120,83 @@ const directoryPalette = {
   },
 } as const
 
+const pagesMenuCompany = [
+  { href: '/about', label: 'About', icon: BookOpen },
+  { href: '/careers', label: 'Careers', icon: Briefcase },
+  { href: '/press', label: 'Press', icon: Newspaper },
+  { href: '/contact', label: 'Contact', icon: Mail },
+] as const
+
+const pagesMenuSupport = [
+  { href: '/help', label: 'Help Center', icon: HelpCircle },
+  { href: '/status', label: 'Status', icon: Activity },
+] as const
+
+const pagesMenuLegal = [
+  { href: '/privacy', label: 'Privacy', icon: Shield },
+  { href: '/terms', label: 'Terms', icon: Scale },
+  { href: '/cookies', label: 'Cookies', icon: Cookie },
+  { href: '/licenses', label: 'Licenses', icon: FileBadge },
+] as const
+
+function PagesMenu({ triggerClassName }: { triggerClassName: string }) {
+  const pathname = usePathname()
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button type="button" variant="ghost" size="sm" className={triggerClassName}>
+          Pages
+          <ChevronDown className="ml-1 h-4 w-4 opacity-70" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56 border-slate-200/90 bg-white/98 p-1 backdrop-blur-md">
+        <DropdownMenuLabel className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Company</DropdownMenuLabel>
+        {pagesMenuCompany.map((item) => {
+          const Icon = item.icon
+          const active = pathname === item.href
+          return (
+            <DropdownMenuItem key={item.href} asChild className={active ? 'bg-slate-100' : ''}>
+              <Link href={item.href} className="flex cursor-pointer items-center gap-2">
+                <Icon className="h-4 w-4 text-slate-600" />
+                {item.label}
+              </Link>
+            </DropdownMenuItem>
+          )
+        })}
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Support</DropdownMenuLabel>
+        {pagesMenuSupport.map((item) => {
+          const Icon = item.icon
+          const active = pathname === item.href
+          return (
+            <DropdownMenuItem key={item.href} asChild className={active ? 'bg-slate-100' : ''}>
+              <Link href={item.href} className="flex cursor-pointer items-center gap-2">
+                <Icon className="h-4 w-4 text-slate-600" />
+                {item.label}
+              </Link>
+            </DropdownMenuItem>
+          )
+        })}
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Legal</DropdownMenuLabel>
+        {pagesMenuLegal.map((item) => {
+          const Icon = item.icon
+          const active = pathname === item.href
+          return (
+            <DropdownMenuItem key={item.href} asChild className={active ? 'bg-slate-100' : ''}>
+              <Link href={item.href} className="flex cursor-pointer items-center gap-2">
+                <Icon className="h-4 w-4 text-slate-600" />
+                {item.label}
+              </Link>
+            </DropdownMenuItem>
+          )
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
 export function Navbar() {
   if (NAVBAR_OVERRIDE_ENABLED) {
     return <NavbarOverride />
@@ -115,8 +225,8 @@ export function Navbar() {
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-4">
             <Link href="/" className="flex shrink-0 items-center gap-3">
-              <div className={cn('flex h-12 w-12 items-center justify-center overflow-hidden p-1.5', palette.logo)}>
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+              <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-0', palette.logo)}>
+                <img src="/favicon.png?v=20260418" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full min-h-full min-w-full object-cover object-center" />
               </div>
               <div className="min-w-0 hidden sm:block">
                 <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
@@ -154,6 +264,8 @@ export function Navbar() {
                 {primaryTask.label}
               </Link>
             ) : null}
+
+            <PagesMenu triggerClassName={cn('hidden h-10 shrink-0 items-center gap-1 rounded-full border px-3 text-sm font-semibold md:inline-flex', palette.post)} />
 
             {isAuthenticated ? (
               <NavbarAuthControls />
@@ -193,6 +305,22 @@ export function Navbar() {
                   </Link>
                 )
               })}
+              <p className="px-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Pages</p>
+              {[...pagesMenuCompany, ...pagesMenuSupport, ...pagesMenuLegal].map((item) => {
+                const Icon = item.icon
+                const isActive = pathname === item.href
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? 'bg-foreground text-background' : palette.post)}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {item.label}
+                  </Link>
+                )
+              })}
             </div>
           </div>
         )}
@@ -205,13 +333,19 @@ export function Navbar() {
   const isEditorial = recipe.navbar === 'editorial-bar'
   const isUtility = recipe.navbar === 'utility-bar'
 
+  const pagesTriggerClass = isFloating
+    ? 'hidden h-10 shrink-0 items-center gap-1 rounded-full border border-white/18 bg-white/10 px-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/16 md:inline-flex'
+    : isUtility
+      ? 'hidden h-10 shrink-0 items-center gap-1 rounded-lg border border-[#d7deca] bg-white px-3 text-sm font-semibold text-[#1f2617] hover:bg-[#eef2e4] md:inline-flex'
+      : 'hidden h-10 shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 md:inline-flex'
+
   return (
     <header className={cn('sticky top-0 z-50 w-full', style.shell)}>
       <nav className={cn('mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8', isFloating ? 'h-24 pt-4' : 'h-20')}>
         <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-7">
           <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap pr-2">
-            <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-1.5', style.logo)}>
-              <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+            <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-0', style.logo)}>
+              <img src="/favicon.png?v=20260418" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full min-h-full min-w-full object-cover object-center" />
             </div>
             <div className="min-w-0 hidden sm:block">
               <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
@@ -220,17 +354,17 @@ export function Navbar() {
           </Link>
 
           {isEditorial ? (
-            <div className="hidden min-w-0 flex-1 items-center gap-4 xl:flex">
-              <div className="h-px flex-1 bg-[#d8c8bb]" />
+            <div className="hidden min-w-0 flex-1 items-center justify-center gap-2 lg:gap-6 xl:flex">
+              <div className="hidden h-px max-w-[72px] flex-1 bg-slate-200 lg:block" />
               {primaryNavigation.map((task) => {
                 const isActive = pathname.startsWith(task.route)
                 return (
-                  <Link key={task.key} href={task.route} className={cn('text-sm font-semibold uppercase tracking-[0.18em] transition-colors', isActive ? 'text-[#2f1d16]' : 'text-[#7b6254] hover:text-[#2f1d16]')}>
+                  <Link key={task.key} href={task.route} className={cn('text-sm font-medium tracking-wide transition-colors', isActive ? 'text-slate-950' : 'text-slate-600 hover:text-slate-950')}>
                     {task.label}
                   </Link>
                 )
               })}
-              <div className="h-px flex-1 bg-[#d8c8bb]" />
+              <div className="hidden h-px max-w-[72px] flex-1 bg-slate-200 lg:block" />
             </div>
           ) : isFloating ? (
             <div className="hidden min-w-0 flex-1 items-center gap-2 xl:flex">
@@ -280,6 +414,8 @@ export function Navbar() {
             </Link>
           ) : null}
 
+          <PagesMenu triggerClassName={pagesTriggerClass} />
+
           <Button variant="ghost" size="icon" asChild className="hidden rounded-full md:flex">
             <Link href="/search">
               <Search className="h-5 w-5" />
@@ -295,7 +431,7 @@ export function Navbar() {
                 <Link href="/login">Sign In</Link>
               </Button>
               <Button size="sm" asChild className={style.cta}>
-                <Link href="/register">{isEditorial ? 'Subscribe' : isUtility ? 'Post Now' : 'Get Started'}</Link>
+                <Link href="/register">{isEditorial ? 'Join free' : isUtility ? 'Post Now' : 'Get Started'}</Link>
               </Button>
             </div>
           )}
@@ -329,6 +465,22 @@ export function Navbar() {
                 <Link key={item.name} href={item.href} onClick={() => setIsMobileMenuOpen(false)} className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? style.active : style.idle)}>
                   <item.icon className="h-5 w-5" />
                   {item.name}
+                </Link>
+              )
+            })}
+            <p className="px-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">Pages</p>
+            {[...pagesMenuCompany, ...pagesMenuSupport, ...pagesMenuLegal].map((item) => {
+              const Icon = item.icon
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? style.active : style.idle)}
+                >
+                  <Icon className="h-5 w-5" />
+                  {item.label}
                 </Link>
               )
             })}
