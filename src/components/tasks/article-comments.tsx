@@ -244,122 +244,157 @@ export function ArticleComments({ slug }: { slug: string }) {
   };
 
   return (
-    <section className="mt-12" id="comments">
-      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-        <MessageSquare className="h-4 w-4" />
-        Comments
+    <section className="mt-16" id="comments">
+      <div className="relative">
+        <div className="absolute -left-4 top-0 h-full w-1 bg-gradient-to-b from-purple-500 via-pink-500 to-yellow-500 rounded-full"></div>
+        <h2 className="text-4xl font-bold text-foreground mb-2" style={{ fontFamily: 'Permanent Marker, cursive' }}>
+          💬 Join the Conversation
+        </h2>
+        <p className="text-muted-foreground">Share your thoughts and connect with the community</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 rounded-2xl border border-border bg-white p-5 shadow-sm">
-        <div className="space-y-2">
-          <label htmlFor="comment-body" className="text-sm font-medium text-foreground">
-            Add a comment
-          </label>
-          <Textarea
-            id="comment-body"
-            value={commentBody}
-            onChange={(event) => setCommentBody(event.target.value)}
-            placeholder="Write your comment here"
-            className="min-h-28"
-            maxLength={2000}
-            disabled={limitReached}
-          />
-        </div>
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="space-y-1">
-            <div
-              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                limitReached
-                  ? "bg-destructive/10 text-destructive"
-                  : remainingToday <= 3
-                    ? "bg-amber-100 text-amber-700"
-                    : "bg-primary/10 text-primary"
-              }`}
-            >
-              {limitReached
-                ? `Daily limit reached: ${DAILY_COMMENT_LIMIT}/${DAILY_COMMENT_LIMIT}`
-                : `${remainingToday} of ${DAILY_COMMENT_LIMIT} comments left today`}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {limitReached
-                ? `You can publish again after ${resetLabel}.`
-                : `Limit resets after ${resetLabel}.`}
-            </p>
+      <form onSubmit={handleSubmit} className="mt-8 relative">
+        <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-3xl blur opacity-20"></div>
+        <div className="relative rounded-3xl border-2 border-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 bg-white p-6 shadow-xl">
+          <div className="space-y-3">
+            <label htmlFor="comment-body" className="text-lg font-bold text-foreground" style={{ fontFamily: 'Permanent Marker, cursive' }}>
+              ✍️ Write something amazing
+            </label>
+            <Textarea
+              id="comment-body"
+              value={commentBody}
+              onChange={(event) => setCommentBody(event.target.value)}
+              placeholder="What's on your mind? Share your ideas, questions, or feedback..."
+              className="min-h-32 text-base border-2 focus:border-purple-500 rounded-2xl"
+              maxLength={2000}
+              disabled={limitReached}
+            />
           </div>
-          <Button type="submit" disabled={limitReached}>
-            Publish Comment
-          </Button>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
+            <div className="space-y-2">
+              <div
+                className={`inline-flex rounded-full px-4 py-2 text-sm font-bold ${
+                  limitReached
+                    ? "bg-red-100 text-red-600"
+                    : remainingToday <= 3
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-green-100 text-green-700"
+                }`}
+              >
+                {limitReached
+                  ? `⚠️ Daily limit reached: ${DAILY_COMMENT_LIMIT}/${DAILY_COMMENT_LIMIT}`
+                  : `🎯 ${remainingToday} of ${DAILY_COMMENT_LIMIT} comments remaining`}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {limitReached
+                  ? `🔄 Come back after ${resetLabel}`
+                  : `⏰ Resets at ${resetLabel}`}
+              </p>
+            </div>
+            <Button 
+              type="submit" 
+              disabled={limitReached}
+              className="bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 text-white font-bold rounded-full px-8 py-3 text-base hover:shadow-lg transition-all hover:scale-105"
+            >
+              🚀 Post Comment
+            </Button>
+          </div>
+          {formError ? <p className="mt-4 text-sm text-red-600 font-semibold">{formError}</p> : null}
         </div>
-        {formError ? <p className="mt-3 text-sm text-destructive">{formError}</p> : null}
       </form>
 
       {mergedComments.length ? (
-        <div className="mt-6 space-y-4">
-          {visibleComments.map((comment) => {
+        <div className="mt-10 space-y-6">
+          {visibleComments.map((comment, index) => {
             const isHighlighted = highlightId === comment.id;
+            const colors = ['from-purple-500', 'from-pink-500', 'from-yellow-500', 'from-green-500', 'from-blue-500'];
+            const gradientColor = colors[index % colors.length];
             return (
               <div
                 key={comment.id}
                 id={`comment-${comment.id}`}
-                className={`rounded-2xl border p-4 ${
-                  isHighlighted ? "border-primary/50 bg-primary/5" : "border-border bg-white"
-                }`}
+                className={`relative group ${
+                  isHighlighted ? "scale-105" : ""
+                } transition-all duration-300`}
               >
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{comment.authorName}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(comment.createdAt).toLocaleDateString()}
-                    </p>
+                <div className={`absolute -inset-0.5 bg-gradient-to-r ${gradientColor} to-purple-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity`}></div>
+                <div className={`relative rounded-3xl border-2 ${
+                  isHighlighted ? "border-purple-500 bg-purple-50" : "border-gray-200 bg-white"
+                } p-6 shadow-lg hover:shadow-xl transition-shadow`}>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${gradientColor} to-purple-500 flex items-center justify-center text-white font-bold text-lg`}>
+                          {comment.authorName.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="text-lg font-bold text-foreground" style={{ fontFamily: 'Permanent Marker, cursive' }}>
+                            {comment.authorName}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(comment.createdAt).toLocaleDateString('en-US', { 
+                              month: 'short', 
+                              day: 'numeric', 
+                              year: 'numeric' 
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <RichContent
+                        html={formatRichHtml(comment.body, "Comment added.")}
+                        className="text-base text-foreground leading-relaxed prose-p:my-2 prose-strong:text-purple-600"
+                      />
+                    </div>
                     {comment.source === "local" ? (
                       <button
                         type="button"
                         onClick={() => handleDeleteLocalComment(comment.id)}
-                        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground transition hover:border-destructive/30 hover:bg-destructive/5 hover:text-destructive"
+                        className="flex-shrink-0 inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-red-200 text-red-500 transition hover:border-red-500 hover:bg-red-50"
                         aria-label="Delete local comment"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-5 w-5" />
                       </button>
                     ) : null}
                   </div>
                 </div>
-                <RichContent
-                  html={formatRichHtml(comment.body, "Comment added.")}
-                  className="mt-2 text-sm text-muted-foreground prose-sm prose-h2:text-xl prose-h3:text-lg"
-                />
               </div>
             );
           })}
         </div>
       ) : (
-        <div className="mt-6 rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          No comments yet.
+        <div className="mt-10 relative">
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-3xl blur opacity-10"></div>
+          <div className="relative rounded-3xl border-2 border-dashed border-gray-300 p-10 text-center bg-white">
+            <div className="text-6xl mb-4">💭</div>
+            <p className="text-xl font-bold text-foreground mb-2" style={{ fontFamily: 'Permanent Marker, cursive' }}>
+              No comments yet
+            </p>
+            <p className="text-muted-foreground">Be the first to share your thoughts!</p>
+          </div>
         </div>
       )}
 
       {totalPages > 1 ? (
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
-          <span>
-            Page {safePage} of {totalPages}
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+          <span className="text-sm font-semibold text-muted-foreground">
+            📖 Page {safePage} of {totalPages}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
               disabled={safePage === 1}
-              className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border-2 border-gray-300 px-6 py-2 text-sm font-bold text-foreground disabled:cursor-not-allowed disabled:opacity-40 hover:border-purple-500 hover:text-purple-600 transition-colors"
             >
-              Previous
+              ⬅️ Previous
             </button>
             <button
               type="button"
               onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={safePage === totalPages}
-              className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border-2 border-gray-300 px-6 py-2 text-sm font-bold text-foreground disabled:cursor-not-allowed disabled:opacity-40 hover:border-purple-500 hover:text-purple-600 transition-colors"
             >
-              Next
+              Next ➡️
             </button>
           </div>
         </div>

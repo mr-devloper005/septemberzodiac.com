@@ -74,9 +74,9 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-sans: 'Permanent Marker', cursive, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-display: 'Permanent Marker', cursive, ui-serif, Georgia, serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
