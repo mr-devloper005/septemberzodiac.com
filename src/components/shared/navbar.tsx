@@ -139,63 +139,15 @@ const pagesMenuLegal = [
   { href: '/licenses', label: 'Licenses', icon: FileBadge },
 ] as const
 
-function PagesMenu({ triggerClassName }: { triggerClassName: string }) {
-  const pathname = usePathname()
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button type="button" variant="ghost" size="sm" className={triggerClassName}>
-          Pages
-          <ChevronDown className="ml-1 h-4 w-4 opacity-70" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 border-slate-200/90 bg-white/98 p-1 backdrop-blur-md">
-        <DropdownMenuLabel className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Company</DropdownMenuLabel>
-        {pagesMenuCompany.map((item) => {
-          const Icon = item.icon
-          const active = pathname === item.href
-          return (
-            <DropdownMenuItem key={item.href} asChild className={active ? 'bg-slate-100' : ''}>
-              <Link href={item.href} className="flex cursor-pointer items-center gap-2">
-                <Icon className="h-4 w-4 text-slate-600" />
-                {item.label}
-              </Link>
-            </DropdownMenuItem>
-          )
-        })}
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Support</DropdownMenuLabel>
-        {pagesMenuSupport.map((item) => {
-          const Icon = item.icon
-          const active = pathname === item.href
-          return (
-            <DropdownMenuItem key={item.href} asChild className={active ? 'bg-slate-100' : ''}>
-              <Link href={item.href} className="flex cursor-pointer items-center gap-2">
-                <Icon className="h-4 w-4 text-slate-600" />
-                {item.label}
-              </Link>
-            </DropdownMenuItem>
-          )
-        })}
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Legal</DropdownMenuLabel>
-        {pagesMenuLegal.map((item) => {
-          const Icon = item.icon
-          const active = pathname === item.href
-          return (
-            <DropdownMenuItem key={item.href} asChild className={active ? 'bg-slate-100' : ''}>
-              <Link href={item.href} className="flex cursor-pointer items-center gap-2">
-                <Icon className="h-4 w-4 text-slate-600" />
-                {item.label}
-              </Link>
-            </DropdownMenuItem>
-          )
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
+const PagesMenu = dynamic(() => import('./pages-menu').then((mod) => mod.PagesMenu), {
+  ssr: false,
+  loading: () => (
+    <Button type="button" variant="ghost" size="sm" className="hidden h-10 shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 md:inline-flex">
+      Pages
+      <ChevronDown className="ml-1 h-4 w-4 opacity-70" />
+    </Button>
+  ),
+})
 
 export function Navbar() {
   if (NAVBAR_OVERRIDE_ENABLED) {

@@ -155,19 +155,12 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
     (typeof content.author === "string" && content.author.trim()) ||
     post.authorName ||
     "Editorial Team";
-  const articleDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString("en-IN", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "";
   const postTags = Array.isArray(post.tags) ? post.tags.filter((tag) => typeof tag === "string") : [];
   const location = content.address || content.location;
   const images = getImageUrls(post, content);
   const mapEmbedUrl = buildMapEmbedUrl(content.latitude, content.longitude, location);
   const isBookmark = task === "sbm" || task === "social";
-  const hideSidebar = isClassified || isArticle || task === "image" || isBookmark;
+  const hideSidebar = isClassified || task === "image" || isBookmark;
   const related = (await fetchTaskPosts(task, 6))
     .filter((item) => item.slug !== post.slug)
     .filter((item) => {
@@ -273,7 +266,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                 </h1>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
                   <span>By {articleAuthor}</span>
-                  {articleDate ? <span>{articleDate}</span> : null}
                   <Badge variant="secondary" className="inline-flex items-center gap-1">
                     <Tag className="h-3.5 w-3.5" />
                     {category}
@@ -408,70 +400,102 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
 
           {!hideSidebar ? (
             <aside className="space-y-6">
-            <div className="rounded-2xl border border-border bg-card p-6">
-              <h2 className="text-lg font-semibold text-foreground">Listing details</h2>
-                <div className="mt-4 space-y-3 text-sm text-muted-foreground">
-                  {content.website && (
-                    <div className="flex items-start gap-2">
-                      <Globe className="mt-0.5 h-4 w-4" />
-                      <a
-                        href={content.website}
-                        className="break-all text-foreground hover:underline"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {content.website}
-                      </a>
+              {isArticle ? (
+                <div className="rounded-2xl border border-border bg-card p-6">
+                  <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">DETAIL PANEL</div>
+                  <h2 className="text-lg font-semibold text-foreground">Article details</h2>
+                  <div className="mt-4 space-y-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-foreground mb-2">Title</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{post.title}</p>
                     </div>
-                  )}
-                  {content.phone && (
-                    <div className="flex items-start gap-2">
-                      <Phone className="mt-0.5 h-4 w-4" />
-                      <span>{content.phone}</span>
+                    <div>
+                      <h3 className="text-sm font-medium text-foreground mb-2">Topics</h3>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="secondary" className="inline-flex items-center gap-1">
+                          <Tag className="h-3.5 w-3.5" />
+                          {category}
+                        </Badge>
+                        {postTags.map((tag) => (
+                          <Badge key={tag} variant="outline">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  )}
-                  {content.email && (
-                    <div className="flex items-start gap-2">
-                      <Mail className="mt-0.5 h-4 w-4" />
-                      <a
-                        href={`mailto:${content.email}`}
-                        className="break-all text-foreground hover:underline"
-                      >
-                        {content.email}
-                      </a>
+                    <div>
+                      <h3 className="text-sm font-medium text-foreground mb-2">Author</h3>
+                      <p className="text-sm text-muted-foreground">{articleAuthor}</p>
                     </div>
-                  )}
-                  {location && (
-                    <div className="flex items-start gap-2">
-                      <MapPin className="mt-0.5 h-4 w-4" />
-                      <span>{location}</span>
-                    </div>
-                  )}
+                  </div>
                 </div>
-              {content.website ? (
-                <Button className="mt-5 w-full" asChild>
-                  <a href={content.website} target="_blank" rel="noreferrer">
-                    Visit Website
-                  </a>
-                </Button>
-              ) : null}
-            </div>
+              ) : (
+                <>
+                  <div className="rounded-2xl border border-border bg-card p-6">
+                    <h2 className="text-lg font-semibold text-foreground">Listing details</h2>
+                    <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+                      {content.website && (
+                        <div className="flex items-start gap-2">
+                          <Globe className="mt-0.5 h-4 w-4" />
+                          <a
+                            href={content.website}
+                            className="break-all text-foreground hover:underline"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {content.website}
+                          </a>
+                        </div>
+                      )}
+                      {content.phone && (
+                        <div className="flex items-start gap-2">
+                          <Phone className="mt-0.5 h-4 w-4" />
+                          <span>{content.phone}</span>
+                        </div>
+                      )}
+                      {content.email && (
+                        <div className="flex items-start gap-2">
+                          <Mail className="mt-0.5 h-4 w-4" />
+                          <a
+                            href={`mailto:${content.email}`}
+                            className="break-all text-foreground hover:underline"
+                          >
+                            {content.email}
+                          </a>
+                        </div>
+                      )}
+                      {location && (
+                        <div className="flex items-start gap-2">
+                          <MapPin className="mt-0.5 h-4 w-4" />
+                          <span>{location}</span>
+                        </div>
+                      )}
+                    </div>
+                    {content.website ? (
+                      <Button className="mt-5 w-full" asChild>
+                        <a href={content.website} target="_blank" rel="noreferrer">
+                          Visit Website
+                        </a>
+                      </Button>
+                    ) : null}
+                  </div>
 
-            {mapEmbedUrl ? (
-              <div className="rounded-2xl border border-border bg-card p-4">
-                <p className="text-sm font-semibold text-foreground">Location map</p>
-                <div className="mt-4 overflow-hidden rounded-xl border border-border">
-                  <iframe
-                    title="Business location map"
-                    src={mapEmbedUrl}
-                    className="h-56 w-full"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            ) : null}
-
-          </aside>
+                  {mapEmbedUrl ? (
+                    <div className="rounded-2xl border border-border bg-card p-4">
+                      <p className="text-sm font-semibold text-foreground">Location map</p>
+                      <div className="mt-4 overflow-hidden rounded-xl border border-border">
+                        <iframe
+                          title="Business location map"
+                          src={mapEmbedUrl}
+                          className="h-56 w-full"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  ) : null}
+                </>
+              )}
+            </aside>
           ) : null}
         </div>
 
