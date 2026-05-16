@@ -20,7 +20,7 @@ export function RegisterForm({ buttonClassName }: { buttonClassName: string }) {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     await signup(name, email, password)
-    router.push('/dashboard')
+    router.push('/')
     router.refresh()
   }
 
@@ -88,7 +88,7 @@ export function RegisterForm({ buttonClassName }: { buttonClassName: string }) {
           'Create account'
         )}
       </Button>
-      <p className="text-center text-xs text-muted-foreground">Your profile is saved locally on this device after signup.</p>
+      <p className="text-center text-xs text-muted-foreground"></p>
       <p className={`text-center text-sm`}>
         <span className="text-muted-foreground">Already have an account? </span>
         <Link href="/login" className="inline-flex items-center gap-1 font-semibold hover:underline">

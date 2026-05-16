@@ -18,7 +18,7 @@ export function LoginForm({ buttonClassName }: { buttonClassName: string }) {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     await login(email, password)
-    router.push('/dashboard')
+    router.push('/')
     router.refresh()
   }
 

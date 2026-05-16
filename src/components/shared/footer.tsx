@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FileText, Building2, LayoutGrid, Tag, Github, Twitter, Linkedin, Image as ImageIcon, User, ArrowRight, Sparkles } from 'lucide-react'
+import { FileText, Building2, LayoutGrid, Tag, Github, Twitter, Linkedin, Image as ImageIcon, User, ArrowRight } from 'lucide-react'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
@@ -26,9 +26,10 @@ const footerLinks = {
   })),
   company: [
     { name: 'About', href: '/about' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Press', href: '/press' },
+    // { name: 'Careers', href: '/careers' },
+    // { name: 'Press', href: '/press' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Help Center', href: '/help' },
   ],
   resources: [
     { name: 'Help Center', href: '/help' },
@@ -39,15 +40,15 @@ const footerLinks = {
     { name: 'Privacy', href: '/privacy' },
     { name: 'Terms', href: '/terms' },
     { name: 'Cookies', href: '/cookies' },
-    { name: 'Licenses', href: '/licenses' },
+    // { name: 'Licenses', href: '/licenses' },
   ],
 }
 
 const socialLinks = [
-  { name: 'Twitter', href: 'https://twitter.com', icon: Twitter },
-  { name: 'GitHub', href: 'https://github.com', icon: Github },
-  { name: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
-]
+  // { name: 'Twitter', href: 'https://twitter.com', icon: Twitter },
+  // { name: 'GitHub', href: 'https://github.com', icon: Github },
+  // { name: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
+] as const
 
 export function Footer() {
   if (FOOTER_OVERRIDE_ENABLED) {
@@ -140,42 +141,10 @@ export function Footer() {
     return (
       <footer className="border-t border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-950">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <div className="rounded-[1.75rem] border border-slate-200/90 bg-white p-8 shadow-[0_24px_60px_rgba(15,23,42,0.05)] sm:p-10">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-xl">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">Join our newsletter</p>
-                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">Sunday features, in one calm email.</h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-600">No promotions clutter—just the week&apos;s best long reads and desk notes.</p>
-              </div>
-              <form className="flex w-full max-w-md items-center gap-2" action="/register">
-                <label htmlFor="footer-newsletter-email" className="sr-only">
-                  Email
-                </label>
-                <input
-                  id="footer-newsletter-email"
-                  name="email"
-                  type="email"
-                  placeholder="you@email.com"
-                  className="h-12 min-w-0 flex-1 rounded-full border border-slate-200 bg-slate-50/80 px-5 text-sm text-slate-900 outline-none ring-slate-300 placeholder:text-slate-400 focus:ring-2"
-                />
-                <button
-                  type="submit"
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white shadow-[0_10px_30px_rgba(15,23,42,0.18)] transition hover:bg-slate-800"
-                  aria-label="Subscribe"
-                >
-                  <ArrowRight className="h-5 w-5" />
-                </button>
-              </form>
-            </div>
-          </div>
 
-          <div className="mt-12 grid gap-10 lg:grid-cols-[1.15fr_0.85fr_0.85fr_0.85fr]">
+          <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr_0.85fr_0.85fr]">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-600">
-                <Sparkles className="h-3.5 w-3.5" />
-                Editorial
-              </div>
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em]">{SITE_CONFIG.name}</h3>
+              <h3 className="text-2xl font-semibold tracking-[-0.03em]">{SITE_CONFIG.name}</h3>
               <p className="mt-4 max-w-md text-sm leading-7 text-slate-600">{SITE_CONFIG.description}</p>
               <div className="mt-6 flex flex-wrap gap-2">
                 {socialLinks.map((item) => (
