@@ -68,7 +68,6 @@ export default function AccountPage() {
             </Avatar>
             <div className="text-center">
               <p className="text-lg font-semibold">{user.name}</p>
-              <p className="mt-1 text-sm text-slate-500">Member since {user.joinedDate}</p>
             </div>
           </div>
 
@@ -86,10 +85,6 @@ export default function AccountPage() {
                 <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Display name</dt>
                 <dd className="mt-0.5 font-medium text-slate-900">{user.name}</dd>
               </div>
-            </div>
-            <div className="rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3">
-              <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">User ID</dt>
-              <dd className="mt-0.5 font-mono text-xs text-slate-700">{user.id}</dd>
             </div>
           </dl>
 

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Bookmark, Building2, Clock, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, MapPin, ShieldCheck, Sparkles, Tag, User } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Bookmark, Building2, Clock, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, MapPin, ShieldCheck, Tag, User } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -286,10 +286,6 @@ function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTas
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
           <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:gap-14">
             <div>
-              <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] ${tone.badge}`}>
-                <Sparkles className="h-3.5 w-3.5 text-slate-500" />
-                {siteContent.hero.badge}
-              </span>
               <h1 className={`mt-6 max-w-xl text-4xl font-semibold tracking-[-0.05em] sm:text-5xl lg:text-[3.15rem] lg:leading-[1.05] ${tone.title}`}>
                 {heroTitle[0]}
                 {heroTitle[1] ? <span className="mt-2 block text-slate-600">{heroTitle[1]}</span> : null}
@@ -336,13 +332,6 @@ function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTas
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href="/register"
-                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-slate-50 py-3 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-white"
-                >
-                  {siteContent.cta.badge}
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
               </div>
             </div>
 
@@ -353,7 +342,6 @@ function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTas
                   <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
                     <div className="mb-4 flex flex-wrap gap-2">
-                      <span className={`rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] ${tone.glass}`}>Cover story</span>
                       <span className={`rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] ${tone.glass}`}>Long read</span>
                     </div>
                     <h2 className="max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">{lead.title}</h2>

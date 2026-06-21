@@ -15,34 +15,14 @@ import {
   Tag,
   Image as ImageIcon,
   ChevronRight,
-  ChevronDown,
   Sparkles,
   MapPin,
   Plus,
-  BookOpen,
-  HelpCircle,
-  Briefcase,
-  Newspaper,
-  Mail,
-  Activity,
-  Shield,
-  Scale,
-  Cookie,
-  FileBadge,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { cn } from '@/lib/utils'
-import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { NAVBAR_OVERRIDE_ENABLED, NavbarOverride } from '@/overrides/navbar'
 
@@ -120,35 +100,6 @@ const directoryPalette = {
   },
 } as const
 
-const pagesMenuCompany = [
-  { href: '/about', label: 'About', icon: BookOpen },
-  { href: '/careers', label: 'Careers', icon: Briefcase },
-  { href: '/press', label: 'Press', icon: Newspaper },
-  { href: '/contact', label: 'Contact', icon: Mail },
-] as const
-
-const pagesMenuSupport = [
-  { href: '/help', label: 'Help Center', icon: HelpCircle },
-  { href: '/status', label: 'Status', icon: Activity },
-] as const
-
-const pagesMenuLegal = [
-  { href: '/privacy', label: 'Privacy', icon: Shield },
-  { href: '/terms', label: 'Terms', icon: Scale },
-  { href: '/cookies', label: 'Cookies', icon: Cookie },
-  { href: '/licenses', label: 'Licenses', icon: FileBadge },
-] as const
-
-const PagesMenu = dynamic(() => import('./pages-menu').then((mod) => mod.PagesMenu), {
-  ssr: false,
-  loading: () => (
-    <Button type="button" variant="ghost" size="sm" className="hidden h-10 shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 md:inline-flex">
-      Pages
-      <ChevronDown className="ml-1 h-4 w-4 opacity-70" />
-    </Button>
-  ),
-})
-
 export function Navbar() {
   if (NAVBAR_OVERRIDE_ENABLED) {
     return <NavbarOverride />
@@ -159,7 +110,7 @@ export function Navbar() {
   const { isAuthenticated } = useAuth()
   const { recipe } = getFactoryState()
 
-  const navigation = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled && task.key !== 'profile'), [])
+  const navigation = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled && task.key !== 'profile' && task.key !== 'article'), [])
   const primaryNavigation = navigation.slice(0, 5)
   const mobileNavigation = navigation.map((task) => ({
     name: task.label,
@@ -182,7 +133,6 @@ export function Navbar() {
               </div>
               <div className="min-w-0 hidden sm:block">
                 <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
-                <span className="block text-[10px] uppercase tracking-[0.24em] opacity-60">{siteContent.navbar.tagline}</span>
               </div>
             </Link>
 
@@ -217,10 +167,16 @@ export function Navbar() {
               </Link>
             ) : null}
 
-            <PagesMenu triggerClassName={cn('hidden h-10 shrink-0 items-center gap-1 rounded-full border px-3 text-sm font-semibold md:inline-flex', palette.post)} />
-
             {isAuthenticated ? (
-              <NavbarAuthControls />
+              <>
+                <Button size="sm" asChild className={cn('hidden rounded-full md:inline-flex', palette.cta)}>
+                  <Link href="/create/article">
+                    <Plus className="mr-1 h-4 w-4" />
+                    Create Article
+                  </Link>
+                </Button>
+                <NavbarAuthControls />
+              </>
             ) : (
               <div className="hidden items-center gap-2 md:flex">
                 <Button variant="ghost" size="sm" asChild className="rounded-full px-4">
@@ -248,34 +204,28 @@ export function Navbar() {
                 <Search className="h-4 w-4" />
                 Find businesses, spaces, and services
               </div>
-              {mobileNavigation.map((item) => {
-                const isActive = pathname.startsWith(item.href)
-                return (
-                  <Link key={item.name} href={item.href} onClick={() => setIsMobileMenuOpen(false)} className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? 'bg-foreground text-background' : palette.post)}>
-                    <item.icon className="h-5 w-5" />
-                    {item.name}
-                  </Link>
-                )
-              })}
-              <p className="px-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Pages</p>
-              {[...pagesMenuCompany, ...pagesMenuSupport, ...pagesMenuLegal].map((item) => {
-                const Icon = item.icon
-                const isActive = pathname === item.href
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? 'bg-foreground text-background' : palette.post)}
-                  >
-                    <Icon className="h-5 w-5" />
-                    {item.label}
-                  </Link>
-                )
-              })}
-            </div>
+            {mobileNavigation.map((item) => {
+              const isActive = pathname.startsWith(item.href)
+              return (
+                <Link key={item.name} href={item.href} onClick={() => setIsMobileMenuOpen(false)} className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? 'bg-foreground text-background' : palette.post)}>
+                  <item.icon className="h-5 w-5" />
+                  {item.name}
+                </Link>
+              )
+            })}
+            {isAuthenticated ? (
+              <Link
+                href="/create/article"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', palette.post)}
+              >
+                <Plus className="h-5 w-5" />
+                Create Article
+              </Link>
+            ) : null}
           </div>
-        )}
+        </div>
+      )}
       </header>
     )
   }
@@ -284,12 +234,6 @@ export function Navbar() {
   const isFloating = recipe.navbar === 'floating-bar'
   const isEditorial = recipe.navbar === 'editorial-bar'
   const isUtility = recipe.navbar === 'utility-bar'
-
-  const pagesTriggerClass = isFloating
-    ? 'hidden h-10 shrink-0 items-center gap-1 rounded-full border border-white/18 bg-white/10 px-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/16 md:inline-flex'
-    : isUtility
-      ? 'hidden h-10 shrink-0 items-center gap-1 rounded-lg border border-[#d7deca] bg-white px-3 text-sm font-semibold text-[#1f2617] hover:bg-[#eef2e4] md:inline-flex'
-      : 'hidden h-10 shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 md:inline-flex'
 
   return (
     <header className={cn('sticky top-0 z-50 w-full', style.shell)}>
@@ -301,7 +245,6 @@ export function Navbar() {
             </div>
             <div className="min-w-0 hidden sm:block">
               <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
-              <span className="hidden text-[10px] uppercase tracking-[0.28em] opacity-70 sm:block">{siteContent.navbar.tagline}</span>
             </div>
           </Link>
 
@@ -366,8 +309,6 @@ export function Navbar() {
             </Link>
           ) : null}
 
-          <PagesMenu triggerClassName={pagesTriggerClass} />
-
           <Button variant="ghost" size="icon" asChild className="hidden rounded-full md:flex">
             <Link href="/search">
               <Search className="h-5 w-5" />
@@ -376,7 +317,15 @@ export function Navbar() {
           </Button>
 
           {isAuthenticated ? (
-            <NavbarAuthControls />
+            <>
+              <Button size="sm" asChild className={cn('hidden rounded-full md:inline-flex', style.cta)}>
+                <Link href="/create/article">
+                  <Plus className="mr-1 h-4 w-4" />
+                  Create Article
+                </Link>
+              </Button>
+              <NavbarAuthControls />
+            </>
           ) : (
             <div className="hidden items-center gap-2 md:flex">
               <Button variant="ghost" size="sm" asChild className="rounded-full px-4">
@@ -420,22 +369,12 @@ export function Navbar() {
                 </Link>
               )
             })}
-            <p className="px-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">Pages</p>
-            {[...pagesMenuCompany, ...pagesMenuSupport, ...pagesMenuLegal].map((item) => {
-              const Icon = item.icon
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? style.active : style.idle)}
-                >
-                  <Icon className="h-5 w-5" />
-                  {item.label}
-                </Link>
-              )
-            })}
+            {isAuthenticated ? (
+              <Link href="/create/article" onClick={() => setIsMobileMenuOpen(false)} className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', style.idle)}>
+                <Plus className="h-5 w-5" />
+                Create Article
+              </Link>
+            ) : null}
           </div>
         </div>
       )}
